@@ -19,5 +19,5 @@ spec:
     targetPort: 2380
   selector:
     k8s-app: infra-etcd-cluster
-    app: infra-etcd
+    app: etcd
   type: ClusterIP
