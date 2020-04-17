@@ -14,6 +14,6 @@ spec:
     targetPort: 2379
   selector:
     k8s-app: infra-etcd-cluster
-    app: infra-etcd
+    app: etcd
   sessionAffinity: None
   type: NodePort
