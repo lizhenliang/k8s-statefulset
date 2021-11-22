@@ -1,7 +1,11 @@
-
+部署：
+```
+kubectl apply -f etcd.yaml
+```
 进入pod测试访问：
 ```
 kubectl exec -it infra-etcd-cluster-0 -- sh
+
 ETCDCTL_API=3 etcdctl --endpoints=http://infra-etcd-cluster-0.infra-etcd-cluster.default:2379,http://infra-etcd-cluster-1.infra-etcd-cluster.default:2379,http://infra-etcd-cluster-2.infra-et
 cd-cluster.default:2379 endpoint health --write-out=table
 ```
@@ -29,17 +33,11 @@ spec:
   type: NodePort
 
 ```
-
-
-## 扩容与缩容
-
-### 扩容
-
+扩容：
 ``` sh
 kubectl scale --replicas=5 statefulset infra-etcd-cluster
 ```
-
-### 缩容
+缩容：
 ``` sh
 kubectl scale --replicas=3 statefulset infra-etcd-cluster
 ```
