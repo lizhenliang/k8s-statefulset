@@ -29,7 +29,6 @@ spec:
   selector:
     k8s-app: infra-etcd-cluster
     app: infra-etcd
-  sessionAffinity: None
   type: NodePort
 
 ```
