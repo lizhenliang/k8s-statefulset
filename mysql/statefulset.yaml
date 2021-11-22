@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: mysql
+ labels:
+   app: mysql
+data:
+ master.cnf: |
+    #Apply this config only on the master.
+   [mysqld]
+   log-bin
+ slave.cnf: |
+    #Apply this config only on slaves.
+   [mysqld]
+ super-read-only
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -165,3 +181,32 @@ spec:
      resources:
        requests:
          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: mysql
+ labels:
+   app: mysql
+spec:
+ ports:
+  -name: mysql
+   port: 3306
+ clusterIP: None
+ selector:
+   app: mysql
+---
+# Client service for connecting to anyMySQL instance for reads.
+# For writes, you must instead connect tothe master: mysql-0.mysql.
+apiVersion: v1
+kind: Service
+metadata:
+ name: mysql-read
+ labels:
+   app: mysql
+spec:
+ ports:
+  -name: mysql
+   port: 3306
+ selector:
+app: mysql
